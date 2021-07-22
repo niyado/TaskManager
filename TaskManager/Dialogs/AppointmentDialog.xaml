@@ -1,0 +1,36 @@
+﻿<ContentDialog
+    x:Class="TaskManager.Dialogs.AppointmentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaskManager.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Appointment Details"
+    PrimaryButtonText="Ok"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Header="Title" Text="{Binding Path=Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBox Grid.Row="1" Header="Description" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <DatePicker Grid.Row="2" x:Name="StartDatePicker" Header="Starts on:" SelectedDate="{Binding Path=Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <DatePicker Grid.Row="3" x:Name="StopDatePicker" Header="Ends on:" SelectedDate="{Binding Path=Stop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="4" Header="Add Attendees (Separate names with a comma)" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Attendees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <ComboBox Grid.Row="5" x:Name="PriorityPicker" Header="Priority" PlaceholderText="Pick a priority" Width="200" SelectedValue="{Binding Path=Priority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <x:String>1</x:String>
+            <x:String>2</x:String>
+            <x:String>3</x:String>
+        </ComboBox>
+    </Grid>
+</ContentDialog>

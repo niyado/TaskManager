@@ -1,0 +1,33 @@
+﻿<ContentDialog
+    x:Class="TaskManager.Dialogs.TaskDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TaskManager.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Task Details"
+    PrimaryButtonText="Ok"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Header="Title" Text="{Binding Path=Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBox Grid.Row="1" Header="Description" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <DatePicker Grid.Row="2" x:Name="DueDatePicker" Header="Due on:" SelectedDate="{Binding Path=Due, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox Grid.Row="3" x:Name="IsCompletedCheckBox" Content="Completed" IsChecked="{Binding Path=IsCompleted, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Row="4" x:Name="PriorityPicker" Header="Priority" PlaceholderText="Pick a priority" Width="200" SelectedValue="{Binding Path=Priority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <x:String>1</x:String>
+            <x:String>2</x:String>
+            <x:String>3</x:String>
+        </ComboBox>
+    </Grid>
+</ContentDialog>
