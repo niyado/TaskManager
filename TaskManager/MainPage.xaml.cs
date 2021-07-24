@@ -32,6 +32,12 @@ namespace TaskManager
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+
+            var handler = new WebRequestHandler();
+            //var tickets = JsonConvert.DeserializeObject<List<Item>>(handler.Get("http://localhost/SupportTicketAPI/ticket/getall").Result);
+            //var context = DataContext as MainViewModel;
+
+            //tickets.ForEach(context.Items.Add);
         }
 
         private async void AddTask_Click(object sender, RoutedEventArgs e)
@@ -114,6 +120,23 @@ namespace TaskManager
                  ((item as Appointment)?.Attendees?.Contains(args.QueryText, StringComparison.InvariantCultureIgnoreCase) ?? false)).ToList();
 
             ItemsList.ItemsSource = filteredResults;
+        }
+
+        private void Incomplete_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainViewModel).SortByCompletion(false);
+            ItemsList.ItemsSource = (DataContext as MainViewModel).SortedItems;
+        }
+
+        private void Completed_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainViewModel).SortByCompletion(true);
+            ItemsList.ItemsSource = (DataContext as MainViewModel).SortedItems;
+        }
+
+        private void ShowAll_Click(object sender, RoutedEventArgs e)
+        {
+            ItemsList.ItemsSource = (DataContext as MainViewModel).Items;
         }
     }
 }

@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WebRequestHandler.cs" />
     <Compile Include="Dialogs\AppointmentDialog.xaml.cs">
       <DependentUpon>AppointmentDialog.xaml</DependentUpon>
     </Compile>

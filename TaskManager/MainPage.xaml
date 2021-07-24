@@ -26,6 +26,10 @@
                 <RowDefinition Height="50px"/>
                 <RowDefinition Height="50px"/>
                 <RowDefinition Height="50px"/>
+                <RowDefinition Height="50px"/>
+                <RowDefinition Height="50px"/>
+                <RowDefinition Height="50px"/>
+                <RowDefinition Height="50px"/>
             </Grid.RowDefinitions>
 
             <SearchBox Grid.Row="0" x:Name="SearchBox" FocusOnKeyboardInput="False" QuerySubmitted="Search_Click" Height="35"/>
@@ -38,6 +42,9 @@
             <Button Grid.Row="5" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Sort" Click="Sort_Click" Background="#E9C46A"></Button>
             <Button Grid.Row="6" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Save" Click="Save_Click" Background="#E9C46A"></Button>
             <Button Grid.Row="7" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Load" Click="Load_Click" Background="#E9C46A"></Button>
+            <Button Grid.Row="9" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Show Incomplete" Click="Incomplete_Click" Background="#E9C46A"></Button>
+            <Button Grid.Row="10" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Show Completed" Click="Completed_Click" Background="#E9C46A"></Button>
+            <Button Grid.Row="11" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Show All" Click="ShowAll_Click" Background="#E9C46A"></Button>
         </Grid>
     </Grid>
 </Page>

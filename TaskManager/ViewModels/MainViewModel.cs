@@ -14,10 +14,12 @@ namespace TaskManager.ViewModels
     {
         public Item SelectedItem { get; set; }
         public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<Item> SortedItems { get; set; }
 
         public MainViewModel()
         {
             Items = new ObservableCollection<Item>();
+            SortedItems = new ObservableCollection<Item>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -35,6 +37,23 @@ namespace TaskManager.ViewModels
         public void Sort()
         {
             Items.Sort(o => o.Priority);
+        }
+
+        public void SortByCompletion(bool isComplete)
+        {
+            SortedItems = new ObservableCollection<Item>();
+            foreach(Item item in Items)
+            {
+                if(item is Models.Task && (item as Models.Task).IsCompleted && isComplete)
+                {
+                    SortedItems.Add(item);
+                }
+                else if(item is Models.Task && !(item as Models.Task).IsCompleted && !isComplete)
+                {
+                    SortedItems.Add(item);
+                }
+
+            }
         }
     }
 
