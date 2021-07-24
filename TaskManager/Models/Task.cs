@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TaskManager.Models
 {
-    class Task : Item, INotifyPropertyChanged
+    public class Task : Item, INotifyPropertyChanged
     {
 
         private DateTime due;
@@ -34,5 +34,6 @@ namespace TaskManager.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TaskManager.Models
 {
-    class Appointment : Item, INotifyPropertyChanged
+    public class Appointment : Item, INotifyPropertyChanged
     {
         
         public DateTimeOffset Start
@@ -43,5 +43,6 @@ namespace TaskManager.Models
         {
             return $"{Priority} | Appointment: {Title} - {Description}\n\t{Start}-{Stop} With: {Attendees}";
         }
+
     }
 }
