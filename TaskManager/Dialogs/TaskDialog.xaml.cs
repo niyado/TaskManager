@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -42,17 +43,18 @@ namespace TaskManager.Dialogs
             this.items = Items;
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             var itemOfInterest = DataContext as Task;
-            var existingItem = items.FirstOrDefault(t => t.Id == itemOfInterest.Id);
-            if (existingItem == null)
+            itemOfInterest = JsonConvert.DeserializeObject<Task>(await new WebRequestHandler().Post("http://localhost/SupportTicketAPI/ticket/AddOrUpdateTask", itemOfInterest));
+
+            var index = items.IndexOf(items.FirstOrDefault(t => t.Id == itemOfInterest.Id));
+            if (index < 0)
             {
-                items.Add(DataContext as Task);
+                items.Add(itemOfInterest);
             }
             else
             {
-                var index = items.IndexOf(existingItem);
                 items.RemoveAt(index);
                 items.Insert(index, itemOfInterest);
             }

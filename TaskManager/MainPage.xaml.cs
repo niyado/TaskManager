@@ -34,10 +34,10 @@ namespace TaskManager
             DataContext = new MainViewModel();
 
             var handler = new WebRequestHandler();
-            //var tickets = JsonConvert.DeserializeObject<List<Item>>(handler.Get("http://localhost/SupportTicketAPI/ticket/getall").Result);
-            //var context = DataContext as MainViewModel;
+            var items = JsonConvert.DeserializeObject<List<Item>>(handler.Get("http://localhost/TaskManagerAPI/item/getall").Result);
+            var context = DataContext as MainViewModel;
 
-            //tickets.ForEach(context.Items.Add);
+            items.ForEach(context.Items.Add);
         }
 
         private async void AddTask_Click(object sender, RoutedEventArgs e)
@@ -107,36 +107,45 @@ namespace TaskManager
             }
         }
 
-        private void Search_Click(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        private async void Search_Click(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
             if(args.QueryText == "")
             {
                 ItemsList.ItemsSource = (DataContext as MainViewModel).Items;
                 return;
             }
-            var filteredResults = ((DataContext as MainViewModel).Items).
-                 Where(item => (item.Title.Contains(args.QueryText, StringComparison.InvariantCultureIgnoreCase)) ||
-                 (item.Description.Contains(args.QueryText, StringComparison.InvariantCultureIgnoreCase)) ||
-                 ((item as Appointment)?.Attendees?.Contains(args.QueryText, StringComparison.InvariantCultureIgnoreCase) ?? false)).ToList();
+            var handler = new WebRequestHandler();
+            var results = JsonConvert.DeserializeObject<List<Item>>(await handler.Post("http://localhost/TaskManagerAPI/item/search", args.QueryText));
 
-            ItemsList.ItemsSource = filteredResults;
+            (DataContext as MainViewModel).Items.Clear();
+            results.ForEach((DataContext as MainViewModel).Items.Add);
         }
 
-        private void Incomplete_Click(object sender, RoutedEventArgs e)
+        private async void Incomplete_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainViewModel).SortByCompletion(false);
-            ItemsList.ItemsSource = (DataContext as MainViewModel).SortedItems;
+            var handler = new WebRequestHandler();
+            var results = JsonConvert.DeserializeObject<List<Item>>(await handler.Post("http://localhost/TaskManagerAPI/item/sortbycompletion", false));
+            // ItemsList.ItemsSource = results;
+            (DataContext as MainViewModel).Items.Clear();
+            results.ForEach((DataContext as MainViewModel).Items.Add);
         }
 
-        private void Completed_Click(object sender, RoutedEventArgs e)
+        private async void Completed_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainViewModel).SortByCompletion(true);
-            ItemsList.ItemsSource = (DataContext as MainViewModel).SortedItems;
+            var handler = new WebRequestHandler();
+            var results = JsonConvert.DeserializeObject<List<Item>>(await handler.Post("http://localhost/TaskManagerAPI/item/sortbycompletion", true));
+
+            (DataContext as MainViewModel).Items.Clear();
+            results.ForEach((DataContext as MainViewModel).Items.Add);
         }
 
         private void ShowAll_Click(object sender, RoutedEventArgs e)
         {
-            ItemsList.ItemsSource = (DataContext as MainViewModel).Items;
+            var handler = new WebRequestHandler();
+            var results = JsonConvert.DeserializeObject<List<Item>>(handler.Get("http://localhost/TaskManagerAPI/item/getall").Result);
+
+            (DataContext as MainViewModel).Items.Clear();
+            results.ForEach((DataContext as MainViewModel).Items.Add);
         }
     }
 }

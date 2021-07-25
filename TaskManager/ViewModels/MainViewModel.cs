@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,12 +15,12 @@ namespace TaskManager.ViewModels
     {
         public Item SelectedItem { get; set; }
         public ObservableCollection<Item> Items { get; set; }
-        public ObservableCollection<Item> SortedItems { get; set; }
+       // public ObservableCollection<Item> SortedItems { get; set; }
 
         public MainViewModel()
         {
             Items = new ObservableCollection<Item>();
-            SortedItems = new ObservableCollection<Item>();
+          //  SortedItems = new ObservableCollection<Item>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -28,9 +29,12 @@ namespace TaskManager.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Remove()
+        public async void Remove()
         {
-            Items.Remove(SelectedItem);
+           // Items.Remove(SelectedItem);
+            var handler = new WebRequestHandler();
+            var itemToRemove = JsonConvert.DeserializeObject<Item>(await handler.Post("http://localhost/TaskManagerAPI/item/delete", SelectedItem.Id));
+            Items.Remove(Items.FirstOrDefault(t => t.Id.Equals(itemToRemove.Id)));
         }
 
 
@@ -39,22 +43,22 @@ namespace TaskManager.ViewModels
             Items.Sort(o => o.Priority);
         }
 
-        public void SortByCompletion(bool isComplete)
-        {
-            SortedItems = new ObservableCollection<Item>();
-            foreach(Item item in Items)
-            {
-                if(item is Models.Task && (item as Models.Task).IsCompleted && isComplete)
-                {
-                    SortedItems.Add(item);
-                }
-                else if(item is Models.Task && !(item as Models.Task).IsCompleted && !isComplete)
-                {
-                    SortedItems.Add(item);
-                }
+        //public void SortByCompletion(bool isComplete)
+        //{
+        //    SortedItems = new ObservableCollection<Item>();
+        //    foreach(Item item in Items)
+        //    {
+        //        if(item is Models.Task && (item as Models.Task).IsCompleted && isComplete)
+        //        {
+        //            SortedItems.Add(item);
+        //        }
+        //        else if(item is Models.Task && !(item as Models.Task).IsCompleted && !isComplete)
+        //        {
+        //            SortedItems.Add(item);
+        //        }
 
-            }
-        }
+        //    }
+        //}
     }
 
     static class Extensions

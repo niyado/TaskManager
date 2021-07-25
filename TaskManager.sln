@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager", "TaskManager\TaskManager.csproj", "{805F86A3-B751-4021-A4BA-E7F721177EAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerAPI", "TaskManagerAPI\TaskManagerAPI.csproj", "{7F862E89-A515-48E6-AB9E-308BE24447FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagerAPI", "TaskManagerAPI\TaskManagerAPI.csproj", "{7F862E89-A515-48E6-AB9E-308BE24447FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +22,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{805F86A3-B751-4021-A4BA-E7F721177EAE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{805F86A3-B751-4021-A4BA-E7F721177EAE}.Debug|Any CPU.Build.0 = Debug|x86
+		{805F86A3-B751-4021-A4BA-E7F721177EAE}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{805F86A3-B751-4021-A4BA-E7F721177EAE}.Debug|ARM.ActiveCfg = Debug|ARM
 		{805F86A3-B751-4021-A4BA-E7F721177EAE}.Debug|ARM.Build.0 = Debug|ARM
 		{805F86A3-B751-4021-A4BA-E7F721177EAE}.Debug|ARM.Deploy.0 = Debug|ARM

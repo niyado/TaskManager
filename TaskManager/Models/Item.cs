@@ -29,7 +29,7 @@ namespace TaskManager.Models
             get;set;
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         public override string ToString()
         {
