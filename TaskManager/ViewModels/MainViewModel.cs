@@ -43,22 +43,6 @@ namespace TaskManager.ViewModels
             Items.Sort(o => o.Priority);
         }
 
-        //public void SortByCompletion(bool isComplete)
-        //{
-        //    SortedItems = new ObservableCollection<Item>();
-        //    foreach(Item item in Items)
-        //    {
-        //        if(item is Models.Task && (item as Models.Task).IsCompleted && isComplete)
-        //        {
-        //            SortedItems.Add(item);
-        //        }
-        //        else if(item is Models.Task && !(item as Models.Task).IsCompleted && !isComplete)
-        //        {
-        //            SortedItems.Add(item);
-        //        }
-
-        //    }
-        //}
     }
 
     static class Extensions

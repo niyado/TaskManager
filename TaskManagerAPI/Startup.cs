@@ -28,6 +28,8 @@ namespace TaskManagerAPI
         {
 
             services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.Converters.Add(
+                   new ProductJsonConverter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

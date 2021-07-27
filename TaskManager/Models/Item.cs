@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -10,6 +11,7 @@ using Microsoft.VisualBasic.CompilerServices;
 
 namespace TaskManager.Models
 {
+   [JsonConverter(typeof(ProductJsonConverter))]
     public class Item : INotifyPropertyChanged
 
     {

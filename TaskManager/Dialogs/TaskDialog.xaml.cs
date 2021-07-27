@@ -46,7 +46,7 @@ namespace TaskManager.Dialogs
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             var itemOfInterest = DataContext as Task;
-            itemOfInterest = JsonConvert.DeserializeObject<Task>(await new WebRequestHandler().Post("http://localhost/SupportTicketAPI/ticket/AddOrUpdateTask", itemOfInterest));
+            itemOfInterest = JsonConvert.DeserializeObject<Task>(await new WebRequestHandler().Post("http://localhost/TaskManagerAPI/item/AddOrUpdateTask", itemOfInterest));
 
             var index = items.IndexOf(items.FirstOrDefault(t => t.Id == itemOfInterest.Id));
             if (index < 0)

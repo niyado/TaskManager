@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
-using TaskManager.Models;
+using TaskManagerAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Task = TaskManager.Models.Task;
+using Task = TaskManagerAPI.Models.Task;
 
 namespace TaskManagerAPI.Controllers
 {
@@ -100,7 +100,7 @@ namespace TaskManagerAPI.Controllers
         [HttpPost("SortByCompletion")]
         public ActionResult<List<Item>> SortByCompletion([FromBody] bool isCompleted)
         {
-            var results = DataContext.Items.Where(item => (item as TaskManager.Models.Task)?.IsCompleted == isCompleted).ToList(); 
+            var results = DataContext.Items.Where(item => (item as TaskManagerAPI.Models.Task)?.IsCompleted == isCompleted).ToList(); 
 
 
             return results;
