@@ -13,6 +13,7 @@ namespace TaskManagerAPI.Controllers
     [Route("Item")]
     public class ItemController : ControllerBase
     {
+
         [HttpGet("test")]
         public string Test()
         {
@@ -22,6 +23,7 @@ namespace TaskManagerAPI.Controllers
         [HttpGet("GetAll")]
         public ActionResult<List<Item>> Get()
         {
+            DataContext.Set(new Item());
             return Ok(DataContext.Items);
         }
 
