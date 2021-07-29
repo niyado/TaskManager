@@ -23,8 +23,9 @@ namespace TaskManagerAPI.Controllers
         [HttpGet("GetAll")]
         public ActionResult<List<Item>> Get()
         {
-            DataContext.Set(new Item());
-            return Ok(DataContext.Items);
+            //return Ok(DataContext.Items);
+            //DataContext.SetTest();
+            return Ok(DataContext.GetAll());
         }
 
         [HttpPost("AddOrUpdateTask")]
@@ -37,14 +38,17 @@ namespace TaskManagerAPI.Controllers
 
             if (task.Id == Guid.Empty)
             {
-                DataContext.Items.Add(task as Task);
+                //DataContext.Items.Add(task as Task);
+                task = DataContext.Set(task as Task) as Task;
             }
             else
             {
-                var ticketToSync = DataContext.Items.FirstOrDefault(t => t.Id.Equals(task.Id));
-                var index = DataContext.Items.IndexOf(ticketToSync);
-                DataContext.Items.RemoveAt(index);
-                DataContext.Items.Insert(index, task);
+                //var ticketToSync = DataContext.Items.FirstOrDefault(t => t.Id.Equals(task.Id));
+                //var index = DataContext.Items.IndexOf(ticketToSync);
+                //DataContext.Items.RemoveAt(index);
+                //DataContext.Items.Insert(index, task);
+                DataContext.Remove(task);
+                task = DataContext.Set(task as Task) as Task ;
             }
 
 
@@ -61,14 +65,17 @@ namespace TaskManagerAPI.Controllers
 
             if (appt.Id == Guid.Empty)
             {
-                DataContext.Items.Add(appt as Appointment);
+                // DataContext.Items.Add(appt as Appointment);
+                appt = DataContext.Set(appt as Appointment) as Appointment;
             }
             else
             {
-                var ticketToSync = DataContext.Items.FirstOrDefault(t => t.Id.Equals(appt.Id));
-                var index = DataContext.Items.IndexOf(ticketToSync);
-                DataContext.Items.RemoveAt(index);
-                DataContext.Items.Insert(index, appt);
+                //var ticketToSync = DataContext.Items.FirstOrDefault(t => t.Id.Equals(appt.Id));
+                //var index = DataContext.Items.IndexOf(ticketToSync);
+                //DataContext.Items.RemoveAt(index);
+                //DataContext.Items.Insert(index, appt);
+                DataContext.Remove(appt);
+                appt = DataContext.Set(appt as Appointment) as Appointment;
 
 
             }
@@ -77,13 +84,14 @@ namespace TaskManagerAPI.Controllers
         }
 
         [HttpPost("Delete")]
-        public ActionResult<Item> Delete([FromBody] Guid id)
+        public ActionResult<Item> Delete([FromBody] Item item)
         {
-            var itemToRemove = DataContext.Items.FirstOrDefault(t => t.Id.Equals(id));
-            if (itemToRemove?.Id != Guid.Empty)
-            {
-                DataContext.Items.Remove(itemToRemove);
-            }
+            //var itemToRemove = DataContext.Items.FirstOrDefault(t => t.Id.Equals(id));
+            //if (itemToRemove?.Id != Guid.Empty)
+            //{
+            //    DataContext.Items.Remove(itemToRemove);
+            //}
+            var itemToRemove = DataContext.Remove(item);
 
             return itemToRemove;
         }
@@ -91,7 +99,8 @@ namespace TaskManagerAPI.Controllers
         [HttpPost("Search")]
         public ActionResult<List<Item>> Search([FromBody] String keyword)
         {
-            var results = DataContext.Items.Where(item => (item.Title.Contains(keyword, StringComparison.InvariantCultureIgnoreCase)) ||
+            List<Item> items = DataContext.GetAll();
+            var results = items.Where(item => (item.Title.Contains(keyword, StringComparison.InvariantCultureIgnoreCase)) ||
                                              (item.Description.Contains(keyword, StringComparison.InvariantCultureIgnoreCase)) ||
                                              ((item as Appointment)?.Attendees?.Contains(keyword, StringComparison.InvariantCultureIgnoreCase) ?? false)).ToList(); 
             
@@ -102,7 +111,8 @@ namespace TaskManagerAPI.Controllers
         [HttpPost("SortByCompletion")]
         public ActionResult<List<Item>> SortByCompletion([FromBody] bool isCompleted)
         {
-            var results = DataContext.Items.Where(item => (item as TaskManagerAPI.Models.Task)?.IsCompleted == isCompleted).ToList(); 
+            List<Item> items = DataContext.GetAll();
+            var results = items.Where(item => (item as TaskManagerAPI.Models.Task)?.IsCompleted == isCompleted).ToList(); 
 
 
             return results;

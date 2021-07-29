@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using TaskManager.Models;
 using System.Text;
 using System.Threading.Tasks;
+using Task = TaskManager.Models.Task;
 
 namespace TaskManager.ViewModels
 {
@@ -33,8 +34,14 @@ namespace TaskManager.ViewModels
         {
            // Items.Remove(SelectedItem);
             var handler = new WebRequestHandler();
-            var itemToRemove = JsonConvert.DeserializeObject<Item>(await handler.Post("http://localhost/TaskManagerAPI/item/delete", SelectedItem.Id));
-            Items.Remove(Items.FirstOrDefault(t => t.Id.Equals(itemToRemove.Id)));
+            Item itemToRemove = new Item();
+            if (SelectedItem is Task)
+                itemToRemove = JsonConvert.DeserializeObject<Item>(await handler.Post("http://localhost/TaskManagerAPI/item/delete", SelectedItem as Task));
+            else if (SelectedItem is Appointment)
+                itemToRemove = JsonConvert.DeserializeObject<Item>(await handler.Post("http://localhost/TaskManagerAPI/item/delete", SelectedItem as Appointment));
+            //if(itemToRemove != null)
+            // Items.Remove(Items.FirstOrDefault(t => t.Id.Equals(itemToRemove.Id)));
+            Items.Remove(SelectedItem);
         }
 
 

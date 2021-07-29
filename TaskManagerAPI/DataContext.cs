@@ -34,18 +34,83 @@ namespace TaskManagerAPI
         {
             IFirebaseClient client = new FireSharp.FirebaseClient(config);
 
-            var setter = client.Set("items/" + Items[0].Id, Items[0]);
-            setter = client.Set("items/" + Items[1].Id, Items[1]);
-            setter = client.Set("items/" + Items[2].Id, Items[2]);
-            setter = client.Set("items/" + Items[3].Id, Items[3]);
-            setter = client.Set("items/" + Items[4].Id, Items[4]);
+            foreach(var item in Items){
+                Set(item);
+            }
         }
 
-        public static async void Set(Item item)
+        public static Item Set(Item item)
         {
             IFirebaseClient client = new FireSharp.FirebaseClient(config);
 
-            var setter = client.Set("items/" + item.Id, item);
+            if (item is Task)
+            {
+                var setter = client.Set("items/task/" + item.Id, item as Task);
+                return setter.ResultAs<Task>();
+            }
+            else if(item is Appointment)
+            {
+                var setter = client.Set("items/appt/" + item.Id, item as Appointment);
+                return setter.ResultAs<Appointment>();
+            }
+            else
+            {
+                var setter = client.Set("items/" + item.Id, item);
+            }
+            return null;
+        }
+
+        public static List<Item> GetAll()
+        {
+            IFirebaseClient client = new FireSharp.FirebaseClient(config);
+
+            List<Item> items = new List<Item>();
+            FirebaseResponse response = client.Get("items/task");
+            Dictionary<string, Task> data = response.ResultAs<Dictionary<string, Task>>();
+
+            if (data != null)
+            {
+                foreach (KeyValuePair<string, Task> entry in data)
+                {
+                    items.Add(entry.Value as Task);
+                }
+            }
+
+            FirebaseResponse response2 = client.Get("items/appt");
+            Dictionary<string, Appointment> data2 = response2.ResultAs<Dictionary<string, Appointment>>();
+
+            if (data2 != null)
+            {
+                foreach (KeyValuePair<string, Appointment> entry in data2)
+                {
+                    items.Add(entry.Value as Appointment);
+                }
+            }
+            return items;
+        }
+
+        public static Item Remove(Item item)
+        {
+            IFirebaseClient client = new FireSharp.FirebaseClient(config);
+            if (item is Task)
+            {
+                FirebaseResponse response = client.Delete("items/task/" + item.Id);
+                return response.ResultAs<Task>();
+            }
+            else if(item is Appointment)
+            {
+                FirebaseResponse response = client.Delete("items/appt/" + item.Id);
+                return response.ResultAs<Appointment>();
+            }
+            else
+            {
+                FirebaseResponse response = client.Delete("items/task/" + item.Id);
+                if(response == null)
+                {
+                    response = client.Delete("items/appt/" + item.Id);
+                }
+                return response.ResultAs<Item>();
+            }
         }
     }
 }
